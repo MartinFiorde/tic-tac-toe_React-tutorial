@@ -71,11 +71,15 @@ body {
   width: 34px;
 }
 
-.board-row:after {
+.board-row {
+  display: block;
+}
+
+/* .board-row:after {
   clear: both;
   content: '';
   display: table;
-}
+} */
 
 .status {
   margin-bottom: 10px;
