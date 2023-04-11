@@ -36,24 +36,40 @@ function Board({ xIsNext, squares, onPlay, currentMove }) {
 
   let status = calculateWinner(squares) ? "Winner: " + calculateWinner(squares) : currentMove == 9 ? "Game ends: Draw" : "Next player: " + (xIsNext ? "X" : "O");
 
+  const generateRows = squares.map((square, index) => {
+    const temp = [];
+    if (index % 3 == 0) {
+      return (
+        <div key={index} className="board-row">
+          {temp}
+        </div>
+      );
+    }
+  });
+
+  function generateSquares(index) {
+    for (let i = index; i < index + 3; i++) {
+      return generateSquare(i);
+    }
+  }
+
+  function generateSquare(i) {
+    return <Square key={i} value={squares[i]} onSquareClick={() => handleClick(i)} />;
+  }
+
+  const boardRows = [];
+  for (let i = 0; i < 9; i+=3) {
+    const boardSquares = [];
+    for (let j = i; j < i + 3; j++) {
+      boardSquares.push(<Square value={squares[j]} onSquareClick={() => handleClick(j)} />);
+    }
+    boardRows.push(<div className="board-row">{boardSquares}</div>);
+  }
+
   return (
     <>
       <div className="status">{status}</div>
-      <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
-      </div>
+      {boardRows}
     </>
   );
 }
@@ -79,15 +95,13 @@ export default function Game() {
   }
 
   const moves = history.map((squares, move) => {
-    if(move>0){
-    let description = move == 1 ? 
-      "Go to game start" : 
-        "Go to move #" + (move-1); 
-    return (
-      <li key={move}>
-        <button onClick={() => jumpTo(move-1)}>{description}</button>
-      </li>
-    );
+    if (move > 0) {
+      let description = move == 1 ? "Go to game start" : "Go to move #" + (move - 1);
+      return (
+        <li key={move}>
+          <button onClick={() => jumpTo(move - 1)}>{description}</button>
+        </li>
+      );
     }
     return;
   });
