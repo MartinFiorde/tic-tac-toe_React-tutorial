@@ -36,27 +36,6 @@ function Board({ xIsNext, squares, onPlay, currentMove }) {
 
   let status = calculateWinner(squares) ? "Winner: " + calculateWinner(squares) : currentMove == 9 ? "Game ends: Draw" : "Next player: " + (xIsNext ? "X" : "O");
 
-  const generateRows = squares.map((square, index) => {
-    const temp = [];
-    if (index % 3 == 0) {
-      return (
-        <div key={index} className="board-row">
-          {temp}
-        </div>
-      );
-    }
-  });
-
-  function generateSquares(index) {
-    for (let i = index; i < index + 3; i++) {
-      return generateSquare(i);
-    }
-  }
-
-  function generateSquare(i) {
-    return <Square key={i} value={squares[i]} onSquareClick={() => handleClick(i)} />;
-  }
-
   const boardRows = [];
   for (let i = 0; i < 9; i+=3) {
     const boardSquares = [];
