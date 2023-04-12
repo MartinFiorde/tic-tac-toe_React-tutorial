@@ -85,18 +85,14 @@ export default function Game() {
 
 const moves = [];
 history.map((squares, move) => {
-    if (move > 0) {
-      let description = move == 1 ? "Go to game start" : "Go to move #" + (move - 1);
+      let description = move == 0 ? "Go to game start" : "Go to move #" + (move);
       moves.push(
-        <li key={move-1}>
-          <button onClick={() => setCurrentMove(move - 1)}>{description}</button>
+        <li key={move}>
+          <button onClick={() => setCurrentMove(move)}>{description}</button>
         </li>
       )
-      console.log(move)
-    }
   });
-  moves.push(<li key={currentMove}>You are on move {currentMove}</li>);
-  console.log(currentMove)
+  moves.push(<li key={10}>You are on move {currentMove}</li>);
 
   const actualMoves = toggleView ? [...moves].reverse() : moves;
 
