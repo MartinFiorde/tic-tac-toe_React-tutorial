@@ -15,7 +15,7 @@ function Board({ xIsNext, squares, onPlay, currentMove }) {
     }
     const nextSquares = squares.slice();
     nextSquares[i] = xIsNext ? "X" : "O";
-    onPlay(nextSquares);
+    onPlay(nextSquares, i);
   }
 
   let status = calculateWinner(squares)[0] ? "Winner: " + calculateWinner(squares)[0] : currentMove == 9 ? "Game ends: Draw" : "Next player: " + (xIsNext ? "X" : "O");
@@ -35,30 +35,32 @@ function Board({ xIsNext, squares, onPlay, currentMove }) {
 
   return (
     <>
-      <div className="status">
-        {status}
-      </div>
+      <div className="status">{status}</div>
       {boardRows}
     </>
   );
 }
 
 export default function Game() {
-  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [historyBoard, setHistoryBoard] = useState([Array(9).fill(null)]);
+  const [historyMove, setHistoryMove] = useState([null]);
+
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
-  const currentSquares = history[currentMove];
+  const currentSquares = historyBoard[currentMove];
   const [toggleView, setToggleView] = useState(false);
 
-  function handlePlay(nextSquares) {
-    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
-    setHistory(nextHistory);
+  function handlePlay(nextSquares, nextMove) {
+    const nextHistory = [...historyBoard.slice(0, currentMove + 1), nextSquares];
+    setHistoryBoard(nextHistory);
     setCurrentMove(nextHistory.length - 1);
+    setHistoryMove([...historyMove.slice(0, currentMove + 1), nextMove]);
+    console.log(historyMove);
   }
 
   const moves = [];
-  history.map((squares, move) => {
-    let description = move == 0 ? "Go to game start" : "Go to move #" + move;
+  historyBoard.map((squares, move) => {
+    let description = move == 0 ? "Go to game start" : "Go to move #" + move + ` (${Math.trunc(historyMove[move] / 3) + 1},${(historyMove[move] % 3) + 1})`;
     moves.push(
       <li key={move}>
         <button onClick={() => setCurrentMove(move)}>{description}</button>
