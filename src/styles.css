@@ -71,15 +71,11 @@ body {
   width: 34px;
 }
 
-.board-row {
+.board-row:after {
+  clear: both;
+  content: "";
   display: block;
 }
-
-/* .board-row:after {
-  clear: both;
-  content: '';
-  display: table;
-} */
 
 .status {
   margin-bottom: 10px;
@@ -91,4 +87,8 @@ body {
 
 .game-info {
   margin-left: 20px;
+}
+
+.bg-green{
+  background-color: rgb(108, 206, 113);
 }
